@@ -5,4 +5,5 @@
   <Project Path="Locadora.Controller/Locadora.Controller.csproj" />
   <Project Path="Locadora.Models/Locadora.Models.csproj" />
   <Project Path="Locadora.View/Locadora.View.csproj" />
+  <Project Path="Utils/Utils.csproj" Id="8ad4250a-98b4-4e16-a752-db86fbc87770" />
 </Solution>
