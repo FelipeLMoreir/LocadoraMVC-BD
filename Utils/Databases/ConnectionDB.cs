@@ -3,7 +3,7 @@
     public class ConnectionDB
     {
         private static readonly string _connectionString =
-            "Data Source=localhost;Initial Catalog=LocadoraDB;User ID=sa;Password=SqlServer@2022;" +
+            "Data Source=localhost;Initial Catalog=LocadoraBD;User ID=sa;Password=SqlServer@2022;" +
             "TrustServerCertificate=True";
 
         public static string GetConnectionString()
