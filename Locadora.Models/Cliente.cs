@@ -10,7 +10,10 @@ namespace Locadora.Models
             "SELECT SCOPE_IDENTITY();";
         public readonly static string SELECTALLCLIENTES = 
             "SELECT * FROM tblClientes;";
-
+        public readonly static string UPDATECLIENTE = 
+            "UPDATE tblClientes " +
+            "SET Telefone = @Telefone " +
+            "WHERE ClienteID = @ClienteID;";
         public int ClienteID { get; private set; }
         public string Nome { get; private set; }
         public string Email { get; private set; }
@@ -31,7 +34,10 @@ namespace Locadora.Models
         {
             ClienteID = clienteID;
         }
-
+        public void setTelefone(string telefone)
+        {
+            Telefone = telefone;
+        }
         public override string ToString()
         {
             return $"Nome: {Nome}\nEmail: {Email}\nTelefone: {Telefone}\n";

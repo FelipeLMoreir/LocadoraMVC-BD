@@ -78,5 +78,43 @@ namespace Locadora.Controller
                 connection.Close();
             }
         }
+
+        public Cliente BuscaClientePorEmail(string email)
+        {
+            throw new NotImplementedException();
+        }
+        public void AtualizarTelefoneCliente(string telefone, string email)
+        {
+            var clienteEncontrado = this.BuscaClientePorEmail(email);
+
+            if (clienteEncontrado is null)
+            {
+                throw new Exception("Cliente não encontrado para o email informado.");
+            }
+            clienteEncontrado.setTelefone(telefone);
+
+            SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
+
+            connection.Open();
+            try
+            {
+                SqlCommand command = new SqlCommand(Cliente.UPDATECLIENTE, connection);
+                command.Parameters.AddWithValue("@Telefones", clienteEncontrado.Telefone);
+                command.Parameters.AddWithValue("@IDCliente", clienteEncontrado.ClienteID);
+                command.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Erro ao atualizar telefone do cliente: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro inesperado ao atualizar telefone do cliente: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }
