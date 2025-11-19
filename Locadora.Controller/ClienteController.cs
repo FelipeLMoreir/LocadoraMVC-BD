@@ -9,19 +9,34 @@ namespace Locadora.Controller
         public void AdicionarCliente(Cliente cliente)
         {
             var connection = new SqlConnection(ConnectionDB.GetConnectionString());
-
             connection.Open();
 
-            SqlCommand command = new SqlCommand(Cliente.INSERTCLIENTE, connection);
+            using (SqlTransaction transaction = connection.BeginTransaction())
+            {
+                try
+                {
 
-            command.Parameters.AddWithValue("@Nome", cliente.Nome);
-            command.Parameters.AddWithValue("@Email", cliente.Email);
-            command.Parameters.AddWithValue("@Telefone", cliente.Telefone ?? (object)DBNull.Value);
+                    SqlCommand command = new SqlCommand(Cliente.INSERTCLIENTE, connection, transaction);
 
-            var clienteID = Convert.ToInt32(command.ExecuteScalar());
-            cliente.setClienteID(clienteID);
+                    command.Parameters.AddWithValue("@Nome", cliente.Nome);
+                    command.Parameters.AddWithValue("@Email", cliente.Email);
+                    command.Parameters.AddWithValue("@Telefone", cliente.Telefone ?? (object)DBNull.Value);
 
-            connection.Close();
+                    var clienteID = Convert.ToInt32(command.ExecuteScalar());
+                    cliente.setClienteID(clienteID);
+                    
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Erro ao adicionar cliente: " + ex.Message);
+                    transaction.Rollback();
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
         public List<Cliente> ListarTodosClientes()
