@@ -23,5 +23,34 @@ namespace Locadora.Controller
 
             connection.Close();
         }
+
+        public List<Cliente> ListarTodosClientes()
+        {
+            var connection = new SqlConnection(ConnectionDB.GetConnectionString());
+
+            connection.Open();
+
+            SqlCommand command = new SqlCommand(Cliente.SELECTALLCLIENTES, connection);
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            List<Cliente> listaClientes = new List<Cliente>();
+
+            while (reader.Read())
+            {
+                var cliente = new Cliente(reader["Nome"].ToString(),
+                                          reader["Email"].ToString(),
+                                          reader["Telefone"] != DBNull.Value ?
+                                          reader["Telefone"].ToString() : null
+                                          );
+                cliente.setClienteID(Convert.ToInt32(reader["ClienteID"]));
+
+                listaClientes.Add(cliente);
+            }
+
+            connection.Close();
+
+            return listaClientes;
+        }
     }
 }

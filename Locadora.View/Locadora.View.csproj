@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Locadora.Controller\Locadora.Controller.csproj" />
     <ProjectReference Include="..\Locadora.Models\Locadora.Models.csproj" />
     <ProjectReference Include="..\Utils\Utils.csproj" />
   </ItemGroup>
