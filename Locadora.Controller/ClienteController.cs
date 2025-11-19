@@ -24,7 +24,7 @@ namespace Locadora.Controller
 
                     var clienteID = Convert.ToInt32(command.ExecuteScalar());
                     cliente.setClienteID(clienteID);
-                    
+
                     transaction.Commit();
                 }
                 catch (Exception ex)
@@ -43,29 +43,40 @@ namespace Locadora.Controller
         {
             var connection = new SqlConnection(ConnectionDB.GetConnectionString());
 
-            connection.Open();
-
-            SqlCommand command = new SqlCommand(Cliente.SELECTALLCLIENTES, connection);
-
-            SqlDataReader reader = command.ExecuteReader();
-
-            List<Cliente> listaClientes = new List<Cliente>();
-
-            while (reader.Read())
+            try
             {
-                var cliente = new Cliente(reader["Nome"].ToString(),
-                                          reader["Email"].ToString(),
-                                          reader["Telefone"] != DBNull.Value ?
-                                          reader["Telefone"].ToString() : null
-                                          );
-                cliente.setClienteID(Convert.ToInt32(reader["ClienteID"]));
+                connection.Open();
+                SqlCommand command = new SqlCommand(Cliente.SELECTALLCLIENTES, connection);
 
-                listaClientes.Add(cliente);
+                SqlDataReader reader = command.ExecuteReader();
+
+                List<Cliente> listaClientes = new List<Cliente>();
+
+                while (reader.Read())
+                {
+                    var cliente = new Cliente(reader["Nome"].ToString(),
+                                              reader["Email"].ToString(),
+                                              reader["Telefone"] != DBNull.Value ?
+                                              reader["Telefone"].ToString() : null
+                                              );
+                    cliente.setClienteID(Convert.ToInt32(reader["ClienteID"]));
+
+                    listaClientes.Add(cliente);
+                }
+                return listaClientes;
             }
-
-            connection.Close();
-
-            return listaClientes;
+            catch (SqlException ex)
+            {
+                throw new Exception("Erro ao listar clientes: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro inesperado ao listar clientes: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
     }
 }
