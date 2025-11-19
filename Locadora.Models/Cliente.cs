@@ -14,6 +14,9 @@ namespace Locadora.Models
             "UPDATE tblClientes " +
             "SET Telefone = @Telefone " +
             "WHERE ClienteID = @ClienteID;";
+        public readonly static string SELECTCLIENTEPOREMAIL = 
+            "SELECT * FROM tblClientes " +
+            "WHERE Email = @Email;";
         public int ClienteID { get; private set; }
         public string Nome { get; private set; }
         public string Email { get; private set; }

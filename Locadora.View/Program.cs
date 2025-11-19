@@ -3,7 +3,7 @@ using Locadora.Models;
 using Microsoft.Data.SqlClient;
 using Utils.Databases;
 
-Cliente cliente = new Cliente("Novo Clientezinsz", "1novo0emailzin@uol.com");
+Cliente cliente = new Cliente("Novo Clientezinszz", "21novo0emailzin@uol.com");
 
 //Documento documento = new Documento(1, "RG", "123456789", new DateOnly(2015, 5, 1), new DateOnly(2025, 5, 1));
 

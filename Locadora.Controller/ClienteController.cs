@@ -81,7 +81,40 @@ namespace Locadora.Controller
 
         public Cliente BuscaClientePorEmail(string email)
         {
-            throw new NotImplementedException();
+            SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
+            connection.Open();
+            try
+            {
+                SqlCommand command = new SqlCommand(Cliente.SELECTCLIENTEPOREMAIL, connection);
+
+                command.Parameters.AddWithValue("@Email", email);
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    var cliente = new Cliente(reader["Nome"].ToString(),
+                                              reader["Email"].ToString(),
+                                              reader["Telefone"] != DBNull.Value ?
+                                              reader["Telefone"].ToString() : null
+                                              );
+                    cliente.setClienteID(Convert.ToInt32(reader["ClienteID"]));
+                    return cliente;
+                }
+                return null;
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Erro ao buscar cliente por email: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro inesperado ao buscar cliente por email: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
         public void AtualizarTelefoneCliente(string telefone, string email)
         {
