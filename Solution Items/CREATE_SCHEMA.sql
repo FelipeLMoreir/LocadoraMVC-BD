@@ -141,3 +141,6 @@ INSERT INTO tblLocacaoFuncionarios (LocacaoID, FuncionarioID) VALUES
 (2, 2);
 
 SELECT * FROM tblClientes
+SELECT * FROM tblDocumentos
+DELETE FROM tblClientes WHERE ClienteID = 1026
+DELETE FROM tblDocumentos WHERE DocumentoID = 1009
