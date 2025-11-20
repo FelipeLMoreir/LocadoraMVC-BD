@@ -7,7 +7,7 @@ Cliente cliente = new Cliente("Novo Clientezinszz", "21novo0emailzin@uol.com");
 
 //Documento documento = new Documento(1, "RG", "123456789", new DateOnly(2015, 5, 1), new DateOnly(2025, 5, 1));
 
-Console.WriteLine(cliente);
+//Console.WriteLine(cliente);
 
 var clienteController = new ClienteController();
 
@@ -33,5 +33,15 @@ var clienteController = new ClienteController();
 //    Console.WriteLine(ex.Message);
 //}
 
-clienteController.AtualizarTelefoneCliente("11999999999", "a@a.com");
-Console.WriteLine(clienteController.BuscaClientePorEmail("a@a.com"));
+//clienteController.AtualizarTelefoneCliente("11999999999", "a@a.com");
+//Console.WriteLine(clienteController.BuscaClientePorEmail("a@a.com"));
+
+try
+{
+    clienteController.DeletarCliente("a@a.com");
+}
+catch (Exception ex)
+{
+    Console.WriteLine(ex.Message);
+}
+
