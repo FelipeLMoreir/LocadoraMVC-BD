@@ -134,7 +134,7 @@ namespace Locadora.Controller
             {
                 SqlCommand command = new SqlCommand(Cliente.UPDATECLIENTE, connection);
                 command.Parameters.AddWithValue("@Telefones", clienteEncontrado.Telefone);
-                command.Parameters.AddWithValue("@IDCliente", clienteEncontrado.ClienteID);
+                command.Parameters.AddWithValue("@ClienteID", clienteEncontrado.ClienteID);
                 command.ExecuteNonQuery();
             }
             catch (SqlException ex)
@@ -151,14 +151,23 @@ namespace Locadora.Controller
             }
         }
 
-        public void DeletarCliente(int clienteID)
+        public void DeletarCliente(string email)
         {
+            var clienteEncontrado = BuscaClientePorEmail(email);
+
+            if (clienteEncontrado is null)
+            {
+                throw new Exception("Cliente não encontrado para o email informado.");
+            }
+
             SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
+
             connection.Open();
+
             try
             {
                 SqlCommand command = new SqlCommand(Cliente.DELETECLIENTE, connection);
-                command.Parameters.AddWithValue("@IDCliente", clienteID);
+                command.Parameters.AddWithValue("@ClienteID", clienteEncontrado.ClienteID);
                 command.ExecuteNonQuery();
             }
             catch (SqlException ex)
