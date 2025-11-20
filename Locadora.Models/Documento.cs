@@ -18,14 +18,18 @@ namespace Locadora.Models
         public DateOnly DataEmissao { get; private set; }
         public DateOnly DataValidade { get; private set; }
 
-        public Documento(int clienteID, string tipoDocumento, string numero, 
+        public Documento(string tipoDocumento, string numero, 
             DateOnly dataEmissao, DateOnly dataValidade)
         {
-            ClienteID = clienteID;
             TipoDocumento = tipoDocumento;
             Numero = numero;
             DataEmissao = dataEmissao;
             DataValidade = dataValidade;
+        }
+
+        public void setClienteID(int clienteID)
+        {
+            ClienteID = clienteID;
         }
 
         public override string ToString()

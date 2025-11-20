@@ -6,16 +6,16 @@ namespace Locadora.Controller
 {
     public class ClienteController
     {
-        public void AdicionarCliente(Cliente cliente)
+        public void AdicionarCliente(Cliente cliente, Documento documento)
         {
             var connection = new SqlConnection(ConnectionDB.GetConnectionString());
+
             connection.Open();
 
             using (SqlTransaction transaction = connection.BeginTransaction())
             {
                 try
                 {
-
                     SqlCommand command = new SqlCommand(Cliente.INSERTCLIENTE, connection, transaction);
 
                     command.Parameters.AddWithValue("@Nome", cliente.Nome);
@@ -23,14 +23,26 @@ namespace Locadora.Controller
                     command.Parameters.AddWithValue("@Telefone", cliente.Telefone ?? (object)DBNull.Value);
 
                     var clienteID = Convert.ToInt32(command.ExecuteScalar());
+
                     cliente.setClienteID(clienteID);
+
+                    var documentoController = new DocumentoController();
+
+                    documento.setClienteID(clienteID);
+
+                    documentoController.AdicionarDocumento(documento, connection, transaction);
 
                     transaction.Commit();
                 }
+                catch (SqlException ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Erro ao adicionar cliente: " + ex.Message);
+                }
                 catch (Exception ex)
                 {
-                    throw new Exception("Erro ao adicionar cliente: " + ex.Message);
                     transaction.Rollback();
+                    throw new Exception("Erro ao adicionar cliente: " + ex.Message);
                 }
                 finally
                 {

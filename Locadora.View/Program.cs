@@ -3,22 +3,26 @@ using Locadora.Models;
 using Microsoft.Data.SqlClient;
 using Utils.Databases;
 
-Cliente cliente = new Cliente("Novo Clientezinszz", "21novo0emailzin@uol.com");
+Cliente cliente = new Cliente("Novo ClientezinszzDoc", "217novo0em7ai7lzinDoc@uol.com");
 
-//Documento documento = new Documento(1, "RG", "123456789", new DateOnly(2015, 5, 1), new DateOnly(2025, 5, 1));
+Documento documento = new Documento("RG", "123477777", new DateOnly(2015, 5, 1), new DateOnly(2025, 5, 1));
 
 //Console.WriteLine(cliente);
 
 var clienteController = new ClienteController();
 
-//try
-//{
-//    clienteController.AdicionarCliente(cliente);
-//}
-//catch (Exception ex)
-//{
-//    Console.WriteLine(ex.Message);
-//}
+//documento.setClienteID(8);
+//var documentoController = new DocumentoController();
+//documentoController.AdicionarDocumento(documento);
+
+try
+{
+    clienteController.AdicionarCliente(cliente, documento);
+}
+catch (Exception ex)
+{
+    Console.WriteLine(ex.Message);
+}
 
 //try
 //{
@@ -36,12 +40,12 @@ var clienteController = new ClienteController();
 //clienteController.AtualizarTelefoneCliente("11999999999", "a@a.com");
 //Console.WriteLine(clienteController.BuscaClientePorEmail("a@a.com"));
 
-try
-{
-    clienteController.DeletarCliente("a@a.com");
-}
-catch (Exception ex)
-{
-    Console.WriteLine(ex.Message);
-}
+//try
+//{
+//    clienteController.DeletarCliente("a@a.com");
+//}
+//catch (Exception ex)
+//{
+//    Console.WriteLine(ex.Message);
+//}
 
