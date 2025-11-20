@@ -144,3 +144,15 @@ SELECT * FROM tblClientes
 SELECT * FROM tblDocumentos
 DELETE FROM tblClientes WHERE ClienteID = 1026
 DELETE FROM tblDocumentos WHERE DocumentoID = 1009
+
+SELECT c.Nome, c.Email, c.Telefone,
+       d.TipoDocumento, d.Numero, d.DataEmissao, d.DataValidade
+FROM tblClientes c
+JOIN tblDocumentos d
+ON c.ClienteID = d.ClienteID
+
+SELECT TOP (1000) [ClienteID]
+      ,[Nome]
+      ,[Email]
+      ,[Telefone]
+  FROM [LocadoraBD].[dbo].[tblClientes]
