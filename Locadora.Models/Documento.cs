@@ -8,7 +8,9 @@ namespace Locadora.Models
 {
     public class Documento
     {
-
+        public readonly static string INSERTDOCUMENTO =
+            "INSERT INTO tblDocumentos (ClienteID, TipoDocumento, Numero, DataEmissao, DataValidade)" +
+            "VALUES (@ClienteID, @TipoDocumento, @Numero, @DataEmissao, @DataValidade); ";
         public string DocumentoID { get; private set; }
         public int ClienteID { get; private set; }
         public string TipoDocumento { get; private set; }
