@@ -17,6 +17,9 @@ namespace Locadora.Models
         public readonly static string SELECTCLIENTEPOREMAIL = 
             "SELECT * FROM tblClientes " +
             "WHERE Email = @Email;";
+        public readonly static string DELETECLIENTE = 
+            "DELETE FROM tblClientes " +
+            "WHERE ClienteID = @ClienteID;";
         public int ClienteID { get; private set; }
         public string Nome { get; private set; }
         public string Email { get; private set; }

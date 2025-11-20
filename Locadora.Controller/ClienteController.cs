@@ -116,6 +116,7 @@ namespace Locadora.Controller
                 connection.Close();
             }
         }
+
         public void AtualizarTelefoneCliente(string telefone, string email)
         {
             var clienteEncontrado = this.BuscaClientePorEmail(email);
@@ -143,6 +144,30 @@ namespace Locadora.Controller
             catch (Exception ex)
             {
                 throw new Exception("Erro inesperado ao atualizar telefone do cliente: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        public void DeletarCliente(int clienteID)
+        {
+            SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
+            connection.Open();
+            try
+            {
+                SqlCommand command = new SqlCommand(Cliente.DELETECLIENTE, connection);
+                command.Parameters.AddWithValue("@IDCliente", clienteID);
+                command.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Erro ao deletar cliente: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro inesperado ao deletar cliente: " + ex.Message);
             }
             finally
             {
