@@ -26,27 +26,34 @@ var clienteController = new ClienteController();
 //}
 #endregion
 #region select
+//try
+//{
+//    var listaDeClientes = clienteController.ListarTodosClientes();
+//    foreach (var clienteDaLista in listaDeClientes)
+//    {
+//        Console.WriteLine(clienteDaLista);
+//    }
+//}
+//catch (Exception ex)
+//{
+//    Console.WriteLine(ex.Message);
+//}
+#endregion
+#region update
 try
 {
-    var listaDeClientes = clienteController.ListarTodosClientes();
-    foreach (var clienteDaLista in listaDeClientes)
-    {
-        Console.WriteLine(clienteDaLista);
-    }
+    clienteController.AtualizarDocumentoCliente(documento, "217novo0em7ai7lzinDoc@uol.com");
+    Console.WriteLine(clienteController.BuscaClientePorEmail("217novo0em7ai7lzinDoc@uol.com"));
 }
 catch (Exception ex)
 {
     Console.WriteLine(ex.Message);
 }
 #endregion
-#region update
-//clienteController.AtualizarTelefoneCliente("11999999999", "a@a.com");
-//Console.WriteLine(clienteController.BuscaClientePorEmail("a@a.com"));
-#endregion
 #region delete
 //try
 //{
-//    clienteController.DeletarCliente("a@a.com");
+//    clienteController.DeletarClientePorEmail("217novo0em7ai7lzinDoc@uol.com");
 //}
 //catch (Exception ex)
 //{

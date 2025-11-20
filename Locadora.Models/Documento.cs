@@ -11,6 +11,13 @@ namespace Locadora.Models
         public readonly static string INSERTDOCUMENTO =
             "INSERT INTO tblDocumentos (ClienteID, TipoDocumento, Numero, DataEmissao, DataValidade)" +
             "VALUES (@ClienteID, @TipoDocumento, @Numero, @DataEmissao, @DataValidade); ";
+        public readonly static string UPDATEDOCUMENTO =
+            "UPDATE tblDocumentos " +
+            "SET TipoDocumento = @TipoDocumento, " +
+            "Numero = @Numero, " +
+            "DataEmissao = @DataEmissao, " +
+            "DataValidade = @DataValidade " +
+            "WHERE ClienteID = @ClienteID;";
         public string DocumentoID { get; private set; }
         public int ClienteID { get; private set; }
         public string TipoDocumento { get; private set; }

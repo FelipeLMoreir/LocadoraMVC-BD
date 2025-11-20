@@ -50,7 +50,6 @@ namespace Locadora.Controller
                 }
             }
         }
-
         public List<Cliente> ListarTodosClientes()
         {
             var connection = new SqlConnection(ConnectionDB.GetConnectionString());
@@ -99,10 +98,10 @@ namespace Locadora.Controller
                 connection.Close();
             }
         }
-
         public Cliente BuscaClientePorEmail(string email)
         {
             SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
+
             connection.Open();
             try
             {
@@ -115,19 +114,18 @@ namespace Locadora.Controller
                 if (reader.Read())
                 {
                     var cliente = new Cliente(reader["Nome"].ToString(),
-                                              reader["Email"].ToString(),
-                                              reader["Telefone"] != DBNull.Value ?
-                                              reader["Telefone"].ToString() : null
-                                              );
+                                                reader["Email"].ToString(),
+                                                reader["Telefone"] != DBNull.Value ?
+                                                reader["Telefone"].ToString() : null
+                                                );
                     cliente.setClienteID(Convert.ToInt32(reader["ClienteID"]));
 
                     var documento = new Documento(
-                        reader["TipoDocumento"].ToString(),
-                        reader["Numero"].ToString(),
-                        (DateOnly)reader["DataEmissao"],
-                        (DateOnly)reader["DataValidade"]
-                        );
-
+                       reader["TipoDocumento"].ToString(),
+                       reader["Numero"].ToString(),
+                       DateOnly.FromDateTime(reader.GetDateTime(6)),
+                       DateOnly.FromDateTime(reader.GetDateTime(7))
+                       );
                     return cliente;
                 }
                 return null;
@@ -145,7 +143,6 @@ namespace Locadora.Controller
                 connection.Close();
             }
         }
-
         public void AtualizarTelefoneCliente(string telefone, string email)
         {
             var clienteEncontrado = this.BuscaClientePorEmail(email);
@@ -179,15 +176,46 @@ namespace Locadora.Controller
                 connection.Close();
             }
         }
+        public void AtualizarDocumentoCliente(Documento documento, string email)
+        {
+            var clienteEncontrado = this.BuscaClientePorEmail(email) ??
+                throw new Exception("Cliente não encontrado para o email informado.");
 
-        public void DeletarCliente(string email)
+            SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
+            connection.Open();
+
+            using (SqlTransaction transaction = connection.BeginTransaction())
+            {
+                try
+                {
+                    clienteEncontrado.setDocumento(documento);
+                    DocumentoController documentoController = new DocumentoController();
+
+                    documentoController.AtualizarDocumento(documento, connection, transaction);
+                    transaction.Commit();
+                }
+                catch (SqlException ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Erro ao atualizar documento do cliente: " + ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Erro inesperado ao atualizar documento do cliente: " + ex.Message);
+                }
+                //finally
+                //{
+                //    connection.Close();
+                //}
+            }
+        }
+        public void DeletarClientePorEmail(string email)
         {
             var clienteEncontrado = BuscaClientePorEmail(email);
 
             if (clienteEncontrado is null)
-            {
-                throw new Exception("Cliente não encontrado para o email informado.");
-            }
+                throw new Exception("Não existe cliente com esse email cadastrado!");
 
             SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
 
