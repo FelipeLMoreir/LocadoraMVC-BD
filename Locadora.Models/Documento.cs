@@ -32,7 +32,7 @@ namespace Locadora.Models
             ClienteID = clienteID;
         }
 
-        public override string ToString()
+        public override string? ToString()
         {
             return $"Tipo Documento: {TipoDocumento}\nNúmero: {Numero}" +
                 $"\nData de Emissão: {DataEmissao}\nData de Validade: {DataValidade}\n";
