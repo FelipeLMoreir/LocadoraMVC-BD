@@ -139,3 +139,5 @@ INSERT INTO tblLocacaoFuncionarios (LocacaoID, FuncionarioID) VALUES
 -- Pedro envolvido na Locação 2
 INSERT INTO tblLocacaoFuncionarios (LocacaoID, FuncionarioID) VALUES
 (2, 2);
+
+SELECT * FROM tblClientes
