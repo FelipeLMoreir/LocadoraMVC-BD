@@ -15,6 +15,7 @@ var clienteController = new ClienteController();
 //var documentoController = new DocumentoController();
 //documentoController.AdicionarDocumento(documento);
 
+#region insert
 //try
 //{
 //    clienteController.AdicionarCliente(cliente, documento);
@@ -23,7 +24,8 @@ var clienteController = new ClienteController();
 //{
 //    Console.WriteLine(ex.Message);
 //}
-
+#endregion
+#region select
 try
 {
     var listaDeClientes = clienteController.ListarTodosClientes();
@@ -36,10 +38,12 @@ catch (Exception ex)
 {
     Console.WriteLine(ex.Message);
 }
-
+#endregion
+#region update
 //clienteController.AtualizarTelefoneCliente("11999999999", "a@a.com");
 //Console.WriteLine(clienteController.BuscaClientePorEmail("a@a.com"));
-
+#endregion
+#region delete
 //try
 //{
 //    clienteController.DeletarCliente("a@a.com");
@@ -48,4 +52,4 @@ catch (Exception ex)
 //{
 //    Console.WriteLine(ex.Message);
 //}
-
+#endregion

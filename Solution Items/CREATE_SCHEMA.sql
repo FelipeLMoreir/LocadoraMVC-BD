@@ -148,7 +148,7 @@ DELETE FROM tblDocumentos WHERE DocumentoID = 1009
 SELECT c.Nome, c.Email, c.Telefone,
        d.TipoDocumento, d.Numero, d.DataEmissao, d.DataValidade
 FROM tblClientes c
-JOIN tblDocumentos d
+LEFT JOIN tblDocumentos d
 ON c.ClienteID = d.ClienteID
 
 SELECT TOP (1000) [ClienteID]
