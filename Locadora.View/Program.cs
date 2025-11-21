@@ -1,8 +1,6 @@
 ﻿using Locadora.Controller;
 using Locadora.Models;
 using Locadora.Models.Enums;
-using Microsoft.Data.SqlClient;
-using Utils.Databases;
 
 Cliente cliente = new Cliente("Novo ClientezinszzDoc", "217novo0em7ai7lzinDoc@uol.com");
 
