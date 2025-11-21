@@ -10,9 +10,7 @@ namespace Locadora.Models
     public class Categoria
     {
         public readonly static string INSERTCATEGORIA =
-            "INSERT INTO tblCategorias " +
-            "VALUES (@Nome, @Descricao, @Diaria); " +
-            "SELECT SCOPE_IDENTITY();";
+            "EXEC sp_INSERIRCATEGORIA @Nome, @Descricao, @Diaria";
         public readonly static string SELECTALLCATEGORIAS =
             "SELECT * FROM tblCategorias;";
         public readonly static string UPDATECATEGORIA =
@@ -30,12 +28,19 @@ namespace Locadora.Models
         public string Nome { get; private set; }
         public string Descricao { get; private set; }
         public decimal Diaria { get; private set; }
-        public Categoria(string nome, string descricao, decimal diaria)
+
+        public Categoria(string nome, decimal diaria)
+        {
+            Nome = nome;
+            Diaria = diaria;
+        }
+        public Categoria(string nome, string? descricao, decimal diaria) : this(nome, diaria)
         {
             Nome = nome;
             Descricao = descricao;
             Diaria = diaria;
         }
+
         public void setCategoriaId(int categoriaId)
         {
             CategoriaId = categoriaId;
