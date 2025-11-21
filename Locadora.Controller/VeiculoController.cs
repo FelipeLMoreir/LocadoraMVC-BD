@@ -108,10 +108,9 @@ namespace Locadora.Controller
             SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
             connection.Open();
 
-            SqlCommand command = new SqlCommand(Veiculos.DELETEVEICULO, connection);
-
             using (SqlTransaction transaction = connection.BeginTransaction())
             {
+                SqlCommand command = new SqlCommand(Veiculos.DELETEVEICULO, connection, transaction);
                 try
                 {
                     command.Parameters.AddWithValue("@VeiculoID", idVeiculo);
