@@ -33,8 +33,12 @@ try
     //    Console.WriteLine(item);
     //}
 
-    var veiculo = veiculoController.BuscarVeiculoPlaca("XYZ-7777");
-    veiculoController.DeletarVeiculo(veiculo.VeiculoID);
+    //var veiculo = veiculoController.BuscarVeiculoPlaca("XYZ-7777");
+    //veiculoController.DeletarVeiculo(veiculo.VeiculoID);
+
+    Console.WriteLine(veiculoController.BuscarVeiculoPlaca("XYZ-1117"));
+    veiculoController.AtualizarStatusVeiculo(EStatusVeiculo.Manutencao.ToString(), "XYZ-1117");
+    Console.WriteLine(veiculoController.BuscarVeiculoPlaca("XYZ-1117"));
 }
 catch (Exception ex)
 {

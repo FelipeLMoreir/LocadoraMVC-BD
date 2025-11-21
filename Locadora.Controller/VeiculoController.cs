@@ -50,9 +50,38 @@ namespace Locadora.Controller
                 }
             }
         }
-        public void AtualizarStatusVeiculo(string statusVeiculo)
+        public void AtualizarStatusVeiculo(string statusVeiculo, string placa)
         {
-            throw new NotImplementedException();
+            SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
+            connection.Open();
+
+            Veiculos veiculo = BuscarVeiculoPlaca(placa) ?? throw new Exception("Veículo não encontrado");
+
+            using (SqlTransaction transaction = connection.BeginTransaction())
+            {
+                SqlCommand command = new SqlCommand(Veiculos.UPDATESTATUSVEICULO, connection, transaction);
+                try
+                {
+                    command.Parameters.AddWithValue("@StatusVeiculo", statusVeiculo);
+                    command.Parameters.AddWithValue("@VeiculoID", veiculo.VeiculoID);
+                    command.ExecuteNonQuery();
+                    transaction.Commit();
+                }
+                catch (SqlException ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Erro ao atualizar status do veículo: " + ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Erro ao atualizar status do veículo: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
         public Veiculos BuscarVeiculoPlaca(string placa)
         {
@@ -88,6 +117,7 @@ namespace Locadora.Controller
                 }
                 catch (SqlException ex)
                 {
+                    
                     throw new Exception("Erro ao listar veículos: " + ex.Message);
                 }
                 catch (Exception ex)
@@ -102,7 +132,6 @@ namespace Locadora.Controller
                 return veiculo ?? throw new Exception("Veículo não encontrado");
             }
         }
-
         public void DeletarVeiculo(int idVeiculo)
         {
             SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
@@ -121,10 +150,12 @@ namespace Locadora.Controller
                 }
                 catch (SqlException ex)
                 {
+                    transaction.Rollback();
                     throw new Exception("Erro ao deletar veículo: " + ex.Message);
                 }
                 catch (Exception ex)
                 {
+                    transaction.Rollback();
                     throw new Exception("Erro ao deletar veículo: " + ex.Message);
                 }
                 finally
