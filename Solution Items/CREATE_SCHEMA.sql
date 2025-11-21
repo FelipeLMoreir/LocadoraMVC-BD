@@ -148,7 +148,7 @@ DELETE FROM tblDocumentos WHERE DocumentoID = 1009
 SELECT c.Nome, c.Email, c.Telefone,
        d.TipoDocumento, d.Numero, d.DataEmissao, d.DataValidade
 FROM tblClientes c
-LEFT JOIN tblDocumentos d
+JOIN tblDocumentos d
 ON c.ClienteID = d.ClienteID
 
 SELECT TOP (1000) [ClienteID]
@@ -156,3 +156,10 @@ SELECT TOP (1000) [ClienteID]
       ,[Email]
       ,[Telefone]
   FROM [LocadoraBD].[dbo].[tblClientes]
+
+  UPDATE tblDocumentos
+  SET TipoDocumento = 'RG',
+  Numero = 12345,
+  DataEmissao = GETDATE(),
+  DataValidade = GETDATE(),
+  WHERE ClienteID = 8

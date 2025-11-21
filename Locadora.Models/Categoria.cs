@@ -3,12 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Locadora.Models
 {
     public class Categoria
     {
-
+        public readonly static string INSERTCATEGORIA =
+            "INSERT INTO tblCategorias " +
+            "VALUES (@Nome, @Descricao, @Diaria); " +
+            "SELECT SCOPE_IDENTITY();";
+        public readonly static string SELECTALLCATEGORIAS =
+            "SELECT * FROM tblCategorias;";
+        public readonly static string UPDATECATEGORIA =
+            "UPDATE tblCategorias " +
+            "SET Descricao = @Descricao, " +
+            "Diaria = @Diaria " +
+            "WHERE CategoriaID = @CategoriaID;";
+        public readonly static string SELECTCATEGORIAPORNOME =
+            "SELECT * FROM tblCategorias " +
+            "WHERE Nome = @Nome;";
+        public readonly static string DELETECATEGORIA =
+            "DELETE FROM tblCategorias " +
+            "WHERE CategoriaID = @CategoriaID;";
         public int CategoriaId { get; private set; }
         public string Nome { get; private set; }
         public string Descricao { get; private set; }
@@ -18,6 +35,22 @@ namespace Locadora.Models
             Nome = nome;
             Descricao = descricao;
             Diaria = diaria;
+        }
+        public void setCategoriaId(int categoriaId)
+        {
+            CategoriaId = categoriaId;
+        }
+        public void setDescricao(string descricao)
+        {
+            Descricao = descricao;
+        }
+        public void setDiaria(decimal diaria)
+        {
+            Diaria = diaria;
+        }
+        public override string? ToString()
+        {
+            return $"Nome: {Nome}\nDescrição: {Descricao}\nDiária: {Diaria:F2}\n";
         }
     }
 }
