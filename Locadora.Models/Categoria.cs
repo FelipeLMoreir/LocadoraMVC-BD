@@ -18,9 +18,12 @@ namespace Locadora.Models
             "SET Descricao = @Descricao, " +
             "Diaria = @Diaria " +
             "WHERE CategoriaID = @CategoriaID;";
-        public readonly static string SELECTCATEGORIAPORNOME =
-            "SELECT * FROM tblCategorias " +
-            "WHERE Nome = @Nome;";
+        public readonly static string SELECTCATEGORIAPORID =
+            "SELECT Nome, Descricao, Diaria FROM tblCategorias" +
+            " WHERE CategoriaID = @CategoriaID;";
+        public readonly static string SELECTNOMECATEGORIAPORID =
+            "SELECT Nome FROM tblCategorias" +
+            " WHERE CategoriaID = @CategoriaID;";
         public readonly static string DELETECATEGORIA =
             "DELETE FROM tblCategorias " +
             "WHERE CategoriaID = @CategoriaID;";

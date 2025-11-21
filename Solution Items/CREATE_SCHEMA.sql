@@ -180,3 +180,5 @@ BEGIN
         print 'Um erro aconteceu ao adicionar o cliente: ' + ERROR_MESSAGE()
     END CATCH
 END
+
+SELECT * FROM tblCategorias

@@ -13,43 +13,33 @@ namespace Locadora.Controller
     {
         public void AdicionarCategoria(Categoria categoria)
         {
-            var connection = new SqlConnection(ConnectionDB.GetConnectionString());
+            SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
 
             connection.Open();
 
-            using (SqlTransaction transaction = connection.BeginTransaction())
+            try
             {
-                try
-                {
-                    SqlCommand command = new SqlCommand(Categoria.INSERTCATEGORIA, connection, transaction);
+                SqlCommand command = new SqlCommand(Categoria.INSERTCATEGORIA, connection);
 
-                    command.Parameters.AddWithValue("@Nome", categoria.Nome);
-                    command.Parameters.AddWithValue("@Descricao", categoria.Descricao);
-                    command.Parameters.AddWithValue("@Diaria", categoria.Diaria);
+                command.Parameters.AddWithValue("@Nome", categoria.Nome);
+                command.Parameters.AddWithValue("@Descricao", categoria.Descricao ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@Diaria", categoria.Diaria);
 
-                    var categoriaId = Convert.ToInt32(command.ExecuteScalar());
-
-                    categoria.setCategoriaId(categoriaId);
-
-                    var documentoController = new DocumentoController();
-
-                    transaction.Commit();
-                }
-                catch (SqlException ex)
-                {
-                    transaction.Rollback();
-                    throw new Exception("Erro ao adicionar categoria: " + ex.Message);
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    throw new Exception("Erro ao adicionar categoria: " + ex.Message);
-                }
-                finally
-                {
-                    connection.Close();
-                }
+                command.ExecuteNonQuery();
             }
+            catch (SqlException ex)
+            {
+                throw new Exception("Erro ao adicionar categoria: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao adicionar categoria: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+
         }
         public List<Categoria> ListarTodasCategorias()
         {
@@ -87,14 +77,14 @@ namespace Locadora.Controller
                 connection.Close();
             }
         }
-        public Categoria BuscarCategoriaPorNome(string nome)
+        public Categoria BuscarCategoriaPorId(int id)
         {
             SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
             try
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand(Categoria.SELECTCATEGORIAPORNOME, connection);
-                command.Parameters.AddWithValue("@Nome", nome);
+                SqlCommand command = new SqlCommand(Categoria.SELECTCATEGORIAPORID, connection);
+                command.Parameters.AddWithValue("@CategoriaID", id);
                 SqlDataReader reader = command.ExecuteReader();
                 if (reader.Read())
                 {
@@ -103,7 +93,7 @@ namespace Locadora.Controller
                         reader["Descricao"].ToString()!,
                         Convert.ToDecimal(reader["Diaria"])
                     );
-                    categoria.setCategoriaId(Convert.ToInt32(reader["CategoriaID"]));
+                    //categoria.setCategoriaId(Convert.ToInt32(reader["CategoriaID"]));
                     return categoria;
                 }
                 return null;
@@ -123,7 +113,7 @@ namespace Locadora.Controller
         }
         public void AtualizarCategoria(Categoria categoria, string descricao, decimal diaria)
         {
-            var categoriaExistente = BuscarCategoriaPorNome(categoria.Nome);
+            var categoriaExistente = BuscarCategoriaPorId(categoria.CategoriaId);
             if (categoriaExistente == null)
             {
                 throw new Exception("Categoria não encontrada para atualização.");
@@ -155,9 +145,9 @@ namespace Locadora.Controller
                 connection.Close();
             }
         }
-        public void DeletarCategoria(string nome)
+        public void DeletarCategoria(int id)
         {
-            var categoriaExistente = BuscarCategoriaPorNome(nome);
+            var categoriaExistente = BuscarCategoriaPorId(id);
             if (categoriaExistente == null)
             {
                 throw new Exception("Categoria não encontrada para deleção.");
@@ -187,3 +177,4 @@ namespace Locadora.Controller
         }
     }
 }
+

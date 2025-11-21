@@ -1,5 +1,6 @@
 ﻿using Locadora.Controller;
 using Locadora.Models;
+using Locadora.Models.Enums;
 using Microsoft.Data.SqlClient;
 using Utils.Databases;
 
@@ -7,12 +8,38 @@ Cliente cliente = new Cliente("Novo ClientezinszzDoc", "217novo0em7ai7lzinDoc@uo
 
 Documento documento = new Documento("RG", "123477777", new DateOnly(2015, 5, 1), new DateOnly(2025, 5, 1));
 
-Categoria categoria = new Categoria("Categoria Teste Doc", "Descrição da Categoria Teste Doc", (decimal)150.00);
+//Categoria categoria = new Categoria("Categoria Teste Doc", "Descrição da Categoria Teste Doc", (decimal)150.00);
 
 //Console.WriteLine(cliente);
 
-var clienteController = new ClienteController();
+//var clienteController = new ClienteController();
 var categoriaController = new CategoriaController();
+//var categoria = new Categoria("Esportivo","Descrição da Categoria Teste Doc", 150.00m);
+//categoriaController.AdicionarCategoria(categoria);
+
+//categoria = new Categoria("Voador", 250.00m);
+//categoriaController.AdicionarCategoria(categoria);
+
+var veiculoController = new VeiculoController();
+try
+{
+    //var veiculo = new Veiculos(2, "XYZ-1111", "Ferrari", "F8 Tributo", 2020, 
+    //  EStatusVeiculo.Disponivel.ToString());
+    //veiculoController.AdicionarVeiculo(veiculo);
+    //var veiculos = veiculoController.ListarTodosVeiculos();
+
+    //foreach (var item in veiculos)
+    //{
+    //    Console.WriteLine(item);
+    //}
+
+    var veiculo = veiculoController.BuscarVeiculoPlaca("XYZ-7777");
+    veiculoController.DeletarVeiculo(veiculo.VeiculoID);
+}
+catch (Exception ex)
+{
+    Console.WriteLine(ex.Message);
+}
 
 //documento.setClienteID(8);
 //var documentoController = new DocumentoController();
