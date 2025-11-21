@@ -27,6 +27,7 @@ namespace Locadora.Models
             Status = EStatusLocacao.Ativa;
         }
 
+        //TODO: Definir os valores de cliente e veiculo como nome e modelo respectivamente
         public override string? ToString()
         {
             return $"Cliente ID: {ClienteID}\nVeículo ID: {VeiculoID}\nData Locação: {DataLocacao}" +
