@@ -18,6 +18,8 @@ namespace Locadora.Models
         public decimal ValorTotal { get; private set; } 
         public decimal? Multa { get; private set; } = 0.00m;
         public EStatusLocacao StatusLocacao { get; private set; } = EStatusLocacao.Ativa;
+        public List<LocacaoFuncionario> LocacaoFuncionarios { get; private set; } = [];
+
 
         public readonly static string sp_AdicionarLocacao =
         "EXEC sp_AdicionarLocacao @ClienteId, @VeiculoId, @DataDevolucaoPrevista, @DataDevolucaoReal, @ValorDiaria, @ValorTotal, @Multa, @Status; SELECT SCOPE_IDENTITY();";

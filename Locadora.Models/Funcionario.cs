@@ -25,6 +25,8 @@ namespace Locadora.Models
         public string CPF { get; private set; }
         public string Email { get; private set; }
         public decimal? Salario { get; private set; }
+        public List<LocacaoFuncionario> LocacaoFuncionarios { get; private set; } = [];
+
         public Funcionario(string nome, string cPF, string email)
         {
             this.Nome = nome;
