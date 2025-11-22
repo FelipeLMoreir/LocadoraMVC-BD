@@ -182,3 +182,4 @@ BEGIN
 END
 
 SELECT * FROM tblCategorias
+SELECT * FROM tblVeiculos
