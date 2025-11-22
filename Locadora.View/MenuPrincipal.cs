@@ -1,4 +1,5 @@
 ﻿using Locadora.View.Clientes;
+using Locadora.View.Locacoes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,10 +40,13 @@ namespace Locadora.View
                         menuCliente.MenuDoCliente();
                         break;
                     case "2":
+                        
                         break;
                     case "3":
                         break;
                     case "4":
+                        var menuLocacao = new LocacaoMenu();
+                        menuLocacao.MenuLocacoes();
                         break;
                     case "0":
                         repetirMenu = false;

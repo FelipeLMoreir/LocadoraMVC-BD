@@ -50,11 +50,14 @@ namespace Locadora.View.Clientes
                     Console.WriteLine("Documento do cliente atualizado com sucesso!");
                     Console.WriteLine(clienteController.BuscaClientePorEmail(emailCliente));
                 }
-                Helpers.PressionerEnterParaContinuar();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Helpers.PressionerEnterParaContinuar();
             }
         }
     }

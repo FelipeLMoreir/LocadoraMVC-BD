@@ -28,11 +28,14 @@ namespace Locadora.View.Clientes
                 {
                     Console.WriteLine("Não há clientes registrados no sistema!");
                 }
-                Helpers.PressionerEnterParaContinuar();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Helpers.PressionerEnterParaContinuar();
             }
         }
     }
