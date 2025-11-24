@@ -24,7 +24,7 @@ namespace Locadora.View.Clientes
                 var emailCliente = Console.ReadLine();
 
                 Console.Write("\nDigite o telefone do cliente: ");
-                var telefoneCliente = Console.ReadLine();
+                var telefoneCliente = Helpers.SolicitarTelefone();
 
                 Console.Clear();
                 Console.WriteLine("======= DOCUMENTO DO CLIENTE =======");
