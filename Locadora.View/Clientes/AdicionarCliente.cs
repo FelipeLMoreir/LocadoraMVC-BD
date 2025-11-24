@@ -29,7 +29,7 @@ namespace Locadora.View.Clientes
                 Console.Clear();
                 Console.WriteLine("======= DOCUMENTO DO CLIENTE =======");
                 Console.WriteLine("Digite o tipo de documento do cliente:");
-                var tipoDocumento = Console.ReadLine();
+                var tipoDocumento = SelecionarDocumento();
 
                 Console.WriteLine("\nDigite o número de documento do cliente:");
                 var numeroDocumento = Console.ReadLine();
@@ -64,6 +64,35 @@ namespace Locadora.View.Clientes
             {
                 Helpers.PressionerEnterParaContinuar();
             }
+        }
+        private string SelecionarDocumento()
+        {
+            var option = "";
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("==== SELECIONE O TIPO DE DOCUMENTO ====");
+                Console.WriteLine("1 -> CPF");
+                Console.WriteLine("2 -> RG");
+                Console.WriteLine("3 -> CNH");
+                Console.WriteLine("=======================================");
+                Console.Write("-> ");
+                option = Console.ReadLine() ?? "-1";
+                switch (option)
+                {
+                    case "1":
+                        return ETiposDocumentos.CPF.ToString();
+                    case "2":
+                        return ETiposDocumentos.RG.ToString();
+                    case "3":
+                        return ETiposDocumentos.CNH.ToString();
+                    default:
+                        Console.WriteLine("Opção inválida! Tente novamente!");
+                        Helpers.PressionerEnterParaContinuar();
+                        break;
+                }
+            }
+            while (true);
         }
     }
 }
