@@ -8,6 +8,8 @@ namespace Locadora.Models
 {
     public class Categoria
     {
+        public static readonly string SELECTVALORDIARIAPORID = @"SELECT Diaria FROM tblCategorias WHERE CategoriaID = @IdCategoria";
+
         public static readonly string INSERTCATEGORIA = @"INSERT INTO tblCategorias (Nome, Descricao, Diaria) VALUES
                                                         (@Nome, @Descricao, @Diaria)";
 

@@ -246,5 +246,41 @@ namespace Locadora.Controller
                 }
             }
         }
+        public decimal BuscarDiariaCategoriaPorId(int id)
+        {
+            using (var connection = new SqlConnection(ConnectionDB.GetConnectionString()))
+            {
+                connection.Open();
+                try
+                {
+                    using (var command = new SqlCommand(Categoria.SELECTVALORDIARIAPORID, connection))
+                    {
+                        command.Parameters.AddWithValue("@IdCategoria", id);
+                        var reader = command.ExecuteReader();
+                        using (reader)
+                        {
+                            var diaria = 0.0m;
+                            if (reader.Read())
+                            {
+                                diaria = reader.GetDecimal(0);
+                            }
+                            return diaria;
+                        }
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Erro do tipo SQL ao tentar buscar nome categoria: " + ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Erro do tipo genérico ao tentar buscar nome categoria: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
     }
 }
