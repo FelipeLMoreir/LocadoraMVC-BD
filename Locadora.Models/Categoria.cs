@@ -1,26 +1,30 @@
-﻿namespace Locadora.Models
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Locadora.Models
 {
     public class Categoria
     {
-        public readonly static string INSERTCATEGORIA =
-            "EXEC sp_INSERIRCATEGORIA @Nome, @Descricao, @Diaria";
-        public readonly static string SELECTALLCATEGORIAS =
-            "SELECT * FROM tblCategorias;";
-        public readonly static string UPDATECATEGORIA =
-            "UPDATE tblCategorias " +
-            "SET Descricao = @Descricao, " +
-            "Diaria = @Diaria " +
-            "WHERE CategoriaID = @CategoriaID;";
-        public readonly static string SELECTCATEGORIAPORID =
-            "SELECT Nome, Descricao, Diaria FROM tblCategorias" +
-            " WHERE CategoriaID = @CategoriaID;";
-        public readonly static string SELECTNOMECATEGORIAPORID =
-            "SELECT Nome FROM tblCategorias" +
-            " WHERE CategoriaID = @CategoriaID;";
-        public readonly static string DELETECATEGORIA =
-            "DELETE FROM tblCategorias " +
-            "WHERE CategoriaID = @CategoriaID;";
-        public int CategoriaId { get; private set; }
+        public static readonly string INSERTCATEGORIA = @"INSERT INTO tblCategorias (Nome, Descricao, Diaria) VALUES
+                                                        (@Nome, @Descricao, @Diaria)";
+
+        public static readonly string SELECTALLCATEGORIA = @"SELECT * FROM tblCategorias";
+
+        public static readonly string SELECTCATEGORIAPORNOME = @"SELECT * FROM tblCategorias WHERE Nome = @Nome";
+
+        public static readonly string SELECTNOMECATEGORIAPORID = @"SELECT Nome FROM tblCategorias WHERE CategoriaID = @IdCategoria";
+
+        public static readonly string UPDATECATEGORIA = @"UPDATE tblCategorias SET
+                                                            Descricao = @Descricao,
+                                                            Diaria = @Diaria
+                                                        WHERE CategoriaID = @IdCategoria";
+
+        public static readonly string DELETECATEGORIA = @"DELETE FROM tblCategorias WHERE CategoriaID = @IdCategoria";
+
+        public int CategoriaID { get; private set; }
         public string Nome { get; private set; }
         public string? Descricao { get; private set; }
         public decimal Diaria { get; private set; }
@@ -30,28 +34,26 @@
             Nome = nome;
             Diaria = diaria;
         }
-        public Categoria(string nome, string? descricao, decimal diaria) : this(nome, diaria)
+
+        public Categoria(
+            string nome,
+            decimal diaria,
+            string? descricao
+        ) : this(nome, diaria)
         {
-            Nome = nome;
             Descricao = descricao;
-            Diaria = diaria;
         }
 
-        public void setCategoriaId(int categoriaId)
+        public void SetCategoriaID(int categoriaId)
         {
-            CategoriaId = categoriaId;
+            CategoriaID = categoriaId;
         }
-        public void setDescricao(string descricao)
-        {
-            Descricao = descricao;
-        }
-        public void setDiaria(decimal diaria)
-        {
-            Diaria = diaria;
-        }
+
         public override string? ToString()
         {
-            return $"Nome: {Nome}\nDescrição: {Descricao}\nDiária: {Diaria:F2}\n";
+            return $"Categoria: {Nome}\n" +
+                $"Descrição: {(String.IsNullOrEmpty(Descricao) ? "Não possui descrição" : Descricao)}\n" +
+                $"Valor Diária: {Diaria:C}\n";
         }
     }
 }

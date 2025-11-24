@@ -1,44 +1,69 @@
-﻿namespace Locadora.Models
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Locadora.Models
 {
-    public class LocacaoFuncionario
+    public class LocacaoFuncionarios
     {
-        public int LocacaoFuncionarioID { get; private set; }
-        public Guid LocacaoId { get; private set; }
+        public static readonly string INSERTLOCACAOFUNIONARIOS = @"
+                                                                  INSERT INTO tblLocacaoFuncionarios 
+                                                                  (LocacaoID, FuncionarioID, Descricao, DataAlteracao) VALUES
+                                                                  (@LocacaoID, @FuncionarioID, @Descricao, @DataAlteracao)";
+
+        public static readonly string SELECTLOCACAOFUNCIONARIOSPORLOCACAOID = @"
+                                                                                SELECT
+	                                                                                f.Nome, f.CPF,
+	                                                                                lf.Descricao, lf.DataAlteracao
+                                                                                FROM tblLocacaoFuncionarios lf
+                                                                                LEFT JOIN tblFuncionarios f
+                                                                                ON lf.FuncionarioID = f.FuncionarioID
+                                                                                JOIN tblLocacoes l
+                                                                                ON lf.LocacaoID = l.LocacaoID
+                                                                                WHERE lf.LocacaoID = @IdLocacao
+                                                                              ";
+
+        public int ID { get; private set; }
+        public Guid LocacaoID { get; private set; }
         public int FuncionarioID { get; private set; }
+        public string NomeFuncionario { get; private set; }
+        public string CPFFuncionario { get; private set; }
+        public string Descricao { get; private set; }
+        public DateTime DataAlteracao { get; private set; }
 
-        // Relacionamento navegacional (opcional)
-        public Locacao Locacao { get; private set; }
-        public Funcionario Funcionario { get; private set; }
-
-        // Comandos SQL estáticos
-        public readonly static string INSERT = @"
-            INSERT INTO tblLocacaoFuncionarios(LocacaoID, FuncionarioID)
-            VALUES (@LocacaoID, @FuncionarioID);";
-
-        public readonly static string DELETE = @"
-            DELETE FROM tblLocacaoFuncionarios
-            WHERE LocacaoFuncionarioID = @LocacaoFuncionarioID;";
-
-        public readonly static string SELECT_BY_LOCACAO = @"
-            SELECT lf.LocacaoFuncionarioID, lf.LocacaoID, lf.FuncionarioID, f.Nome, f.Email, f.Salario
-            FROM tblLocacaoFuncionarios lf
-            JOIN tblFuncionarios f ON lf.FuncionarioID = f.FuncionarioID
-            WHERE lf.LocacaoID = @LocacaoID;";
-
-        public readonly static string SELECT_BY_FUNCIONARIO = @"
-            SELECT lf.LocacaoFuncionarioID, lf.LocacaoID, lf.FuncionarioID, l.DataLocacao, l.ValorTotal
-            FROM tblLocacaoFuncionarios lf
-            JOIN tblLocacoes l ON lf.LocacaoID = l.LocacaoID
-            WHERE lf.FuncionarioID = @FuncionarioID;";
-
-        public LocacaoFuncionario(Guid locacaoId, int funcionarioId)
+        public LocacaoFuncionarios(
+            Guid locacaoID,
+            int funcionarioID,
+            string descricao
+        )
         {
-            LocacaoId = locacaoId;
-            FuncionarioID = funcionarioId;
+            LocacaoID = locacaoID;
+            FuncionarioID = funcionarioID;
+            Descricao = descricao;
+            DataAlteracao = DateTime.Now;
         }
 
-        public void SetLocacaoFuncionarioID(int id) => LocacaoFuncionarioID = id;
-        public void SetLocacao(Locacao locacao) => Locacao = locacao;
-        public void SetFuncionario(Funcionario funcionario) => Funcionario = funcionario;
+        public LocacaoFuncionarios(
+            string nomeFuncionario,
+            string cpfFuncionario,
+            string descricao,
+            DateTime dataAlteracao
+        )
+        {
+            NomeFuncionario = nomeFuncionario;
+            CPFFuncionario = cpfFuncionario;
+            Descricao = descricao;
+            DataAlteracao = dataAlteracao;
+        }
+
+        public override string? ToString()
+        {
+            return $"Funcionário: {NomeFuncionario}\n" +
+                $"CPF: {CPFFuncionario}\n" +
+                $"Alteração: {Descricao}\n" +
+                $"Data da alteração: {DataAlteracao}";
+        }
     }
 }

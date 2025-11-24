@@ -1,4 +1,4 @@
-﻿﻿using Locadora.Controller;
+﻿using Locadora.Controller;
 using Locadora.Models;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Utils;
 
-namespace Locadora.View.VeiculosCategorias.Categorias
+namespace Locadora.View.Categorias
 {
     public class AdicionarCategoria
     {
@@ -28,8 +28,8 @@ namespace Locadora.View.VeiculosCategorias.Categorias
 
                 var categoria = new Categoria(
                     nomeCategoria,
-                    descricaoCategoria,
-                    valorDiaria
+                    valorDiaria,
+                    descricaoCategoria
                 );
 
                 categoriaController.AdicionarCategoria(categoria);

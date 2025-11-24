@@ -6,27 +6,27 @@ using System.Text;
 using System.Threading.Tasks;
 using Utils;
 
-namespace Locadora.View.VeiculosCategorias.Categorias
+namespace Locadora.View.Funcionarios
 {
-    public class ListarCategorias
+    public class ListarFuncionarios
     {
-        public void ListarTodasCategorias(CategoriaController categoriaController)
+        public void ListarTodosFuncionarios(FuncionarioController funcionarioController)
         {
             try
             {
                 Console.Clear();
-                var categorias = categoriaController.ListarTodasCategorias();
-                if (categorias.Count > 0)
+                var funcionarios = funcionarioController.ListarTodosFuncionarios();
+                if (funcionarios.Count() > 0)
                 {
-                    Console.WriteLine("======= LISTA DE CATEGORIAS =======");
-                    foreach (var c in categorias)
+                    Console.WriteLine("======= LISTA DE VEÍCULOS =======");
+                    foreach (var f in funcionarios)
                     {
-                        Console.WriteLine(c);
+                        Console.WriteLine(f);
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Não há categorias registradas no sistema!");
+                    Console.WriteLine("Não há funcionários registrados no sistema!");
                 }
             }
             catch (Exception ex)

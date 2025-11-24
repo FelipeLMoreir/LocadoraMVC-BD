@@ -1,5 +1,6 @@
 ﻿using Locadora.Controller;
 using Locadora.Models;
+using Locadora.View.Categorias;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Utils;
 
-namespace Locadora.View.VeiculosCategorias.Categorias
+namespace Locadora.View.Categorias
 {
     public class ExcluirCategoria
     {
@@ -24,10 +25,10 @@ namespace Locadora.View.VeiculosCategorias.Categorias
                 {
                     new ListarCategorias().ListarTodasCategorias(categoriaController);
 
-                    Console.WriteLine("Digite o id da categoria que deseja excluir: ");
-                    var idCategoria = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Digite o nome da categoria que deseja excluir: ");
+                    var nomeCategoria = Console.ReadLine();
 
-                    categoriaController.DeletarCategoria(idCategoria);
+                    categoriaController.DeletarCategoria(nomeCategoria);
                     Console.WriteLine("Categoria deletada com sucesso!");
                 }
             }

@@ -59,7 +59,7 @@ CREATE TABLE tblFuncionarios (
 
 -- 6. Tabela tblLocacoes (Relacionamento 1:N com tblClientes e tblVeiculos, e N:M com tblFuncionarios)
 CREATE TABLE tblLocacoes (
-    LocacaoID INT PRIMARY KEY IDENTITY(1,1),
+    LocacaoID CHAR(36) PRIMARY KEY,
     ClienteID INT NOT NULL,
     VeiculoID INT NOT NULL,
     DataLocacao DATETIME NOT NULL DEFAULT GETDATE(),
@@ -76,7 +76,7 @@ CREATE TABLE tblLocacoes (
 -- 7. Tabela tblLocacaoFuncionarios (Tabela de Junção para o relacionamento N:M entre tblLocacoes e tblFuncionarios)
 CREATE TABLE tblLocacaoFuncionarios (
     LocacaoFuncionarioID INT PRIMARY KEY IDENTITY(1,1),
-    LocacaoID INT NOT NULL,
+    LocacaoID CHAR(36) NOT NULL,
     FuncionarioID INT NOT NULL,
     CONSTRAINT FK_LocFunc_Locacoes FOREIGN KEY (LocacaoID) REFERENCES tblLocacoes(LocacaoID) ON DELETE CASCADE,
     CONSTRAINT FK_LocFunc_Funcionarios FOREIGN KEY (FuncionarioID) REFERENCES tblFuncionarios(FuncionarioID),
@@ -116,190 +116,26 @@ INSERT INTO tblFuncionarios (Nome, CPF, Email, Salario) VALUES
 
 -- Locações (para teste, sem funcionários associados ainda)
 -- Locação 1: João aluga Mobi
-INSERT INTO tblLocacoes (ClienteID, VeiculoID, DataLocacao, DataDevolucaoPrevista, ValorDiaria, Status) VALUES
-(1, 1, GETDATE(), DATEADD(day, 5, GETDATE()), 80.00, 'Ativa');
+INSERT INTO tblLocacoes (LocacaoID, ClienteID, VeiculoID, DataLocacao, DataDevolucaoPrevista, ValorDiaria, Status) VALUES
+('13cad6e3-d6b0-4199-bffb-964a8571e02d', 1, 1, GETDATE(), DATEADD(day, 5, GETDATE()), 80.00, 'Ativa');
 UPDATE tblVeiculos SET StatusVeiculo = 'Alugado' WHERE VeiculoID = 1;
 
 -- Locação 2: Maria aluga Onix Plus
-INSERT INTO tblLocacoes (ClienteID, VeiculoID, DataLocacao, DataDevolucaoPrevista, ValorDiaria, Status) VALUES
-(2, 3, GETDATE(), DATEADD(day, 7, GETDATE()), 120.00, 'Ativa');
+INSERT INTO tblLocacoes (LocacaoID, ClienteID, VeiculoID, DataLocacao, DataDevolucaoPrevista, ValorDiaria, Status) VALUES
+('bac6ea70-2ad3-4cbf-ba40-dfaef816faaa', 2, 3, GETDATE(), DATEADD(day, 7, GETDATE()), 120.00, 'Ativa');
 UPDATE tblVeiculos SET StatusVeiculo = 'Alugado' WHERE VeiculoID = 3;
 
 -- Locação 3: Carlos aluga Renegade (já finalizada)
-INSERT INTO tblLocacoes (ClienteID, VeiculoID, DataLocacao, DataDevolucaoPrevista, DataDevolucaoReal, ValorDiaria, ValorTotal, Status) VALUES
-(3, 5, DATEADD(day, -10, GETDATE()), DATEADD(day, -5, GETDATE()), DATEADD(day, -5, GETDATE()), 180.00, 900.00, 'Finalizada');
+INSERT INTO tblLocacoes (LocacaoID, ClienteID, VeiculoID, DataLocacao, DataDevolucaoPrevista, DataDevolucaoReal, ValorDiaria, ValorTotal, Status) VALUES
+('0ea5ddc4-3721-48cc-a11e-cd7a353f64bb', 3, 5, DATEADD(day, -10, GETDATE()), DATEADD(day, -5, GETDATE()), DATEADD(day, -5, GETDATE()), 180.00, 900.00, 'Finalizada');
 -- Veículo 5 deve estar disponível novamente
 
 -- LocaçãoFuncionarios (N:M)
 -- Ana e Pedro envolvidos na Locação 1
 INSERT INTO tblLocacaoFuncionarios (LocacaoID, FuncionarioID) VALUES
-(1, 1),
-(1, 2);
+('13cad6e3-d6b0-4199-bffb-964a8571e02d', 1),
+('13cad6e3-d6b0-4199-bffb-964a8571e02d', 2);
 
 -- Pedro envolvido na Locação 2
 INSERT INTO tblLocacaoFuncionarios (LocacaoID, FuncionarioID) VALUES
-(2, 2);
-
-SELECT * FROM tblClientes
-SELECT * FROM tblDocumentos
-DELETE FROM tblClientes WHERE ClienteID = 1026
-DELETE FROM tblDocumentos WHERE DocumentoID = 1009
-
-SELECT c.Nome, c.Email, c.Telefone,
-       d.TipoDocumento, d.Numero, d.DataEmissao, d.DataValidade
-FROM tblClientes c
-JOIN tblDocumentos d
-ON c.ClienteID = d.ClienteID
-
-SELECT TOP (1000) [ClienteID]
-      ,[Nome]
-      ,[Email]
-      ,[Telefone]
-  FROM [LocadoraBD].[dbo].[tblClientes]
-
-  UPDATE tblDocumentos
-  SET TipoDocumento = 'RG',
-  Numero = 12345,
-  DataEmissao = GETDATE(),
-  DataValidade = GETDATE(),
-  WHERE ClienteID = 8
-
-CREATE OR ALTER PROCEDURE sp_INSERIRCATEGORIA
-   @NomeCategoria VARCHAR(50),
-   @DescricaoCategoria VARCHAR(255) NULL,
-   @DiariaCategoria DECIMAL(10,2)
-AS
-BEGIN
-    SET NOCOUNT ON;
-    BEGIN TRY
-        INSERT INTO tblCategorias (Nome, Descricao, Diaria)
-        VALUES (@NomeCategoria, @DescricaoCategoria, @DiariaCategoria);
-        PRINT 'Categoria adicionada!'
-    END TRY
-    BEGIN CATCH
-        print 'Um erro aconteceu ao adicionar o cliente: ' + ERROR_MESSAGE()
-    END CATCH
-END
-
-SELECT * FROM tblCategorias
-SELECT * FROM tblVeiculos
-
-CREATE OR ALTER PROCEDURE sp_AdicionarLocacao @ClienteIdLocacao INT,
-                                              @VeiculoIdLocacao INT,
-                                              @DataDevolucaoPrevistaLocacao DATETIME,
-                                              @DataDevolucaoRealLocacao DATETIME NULL,
-                                              @ValorDiariaLocacao DECIMAL(10, 2),
-                                              @ValorTotalLocacao DECIMAL(10, 2),
-                                              @MultaLocacao DECIMAL(10, 2) NULL,
-                                              @StatusLocacao VARCHAR(20) NULL
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    BEGIN TRY
-        INSERT INTO tblLocacoes (ClienteID, VeiculoID, DataDevolucaoPrevista, DataDevolucaoReal, ValorDiaria,
-                                 ValorTotal, Multa, Status)
-        VALUES (@ClienteIdLocacao, @VeiculoIdLocacao, @DataDevolucaoPrevistaLocacao,
-                @DataDevolucaoRealLocacao, @ValorDiariaLocacao,
-                @ValorTotalLocacao, @MultaLocacao, @StatusLocacao);
-
-        PRINT 'Locacao adicionada com sucesso!'
-    END TRY
-    BEGIN CATCH
-        PRINT 'Erro ao adicionar locacao' + ERROR_MESSAGE();
-        THROW;
-    END CATCH
-END
-GO
-
-CREATE OR ALTER PROCEDURE sp_AtualizarLocacao @idLocacao INT,
-                                              @DataDevolucaoReal DATETIME,
-                                              @Status VARCHAR(20),
-                                              @Multa DECIMAL(10, 2)
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    BEGIN TRY
-        UPDATE tblLocacoes
-        SET DataDevolucaoReal = @DataDevolucaoReal,
-            Status            = @Status,
-            Multa             = @Multa
-        WHERE LocacaoID = @idLocacao;
-
-        PRINT 'Locacao Atualizada com sucesso!'
-    END TRY
-    BEGIN CATCH
-        PRINT 'Erro ao atualizar localizacao: ' + ERROR_MESSAGE();
-        THROW;
-    END CATCH
-END
-GO
-
-CREATE OR ALTER PROCEDURE sp_BuscarLocacaoId @idLocacao INT
-AS
-BEGIN
-    SET NOCOUNT ON;
-    BEGIN TRY
-        SELECT ClienteID,
-               VeiculoID,
-               DataLocacao,
-               DataDevolucaoPrevista,
-               DataDevolucaoReal,
-               ValorDiaria,
-               ValorTotal,
-               Multa,
-               Status
-        FROM tblLocacoes
-        WHERE LocacaoID = @idLocacao;
-    END TRY
-    BEGIN CATCH
-        PRINT 'Erro ao encontrar locacao: ' + ERROR_MESSAGE();
-        THROW;
-    END CATCH
-END
-GO
-
-CREATE OR ALTER PROCEDURE sp_BuscarLocacao
-AS
-BEGIN
-    SET NOCOUNT ON;
-    BEGIN TRY
-        SELECT ClienteID,
-               VeiculoID,
-               DataLocacao,
-               DataDevolucaoPrevista,
-               DataDevolucaoReal,
-               ValorDiaria,
-               ValorTotal,
-               Multa,
-               Status
-        FROM tblLocacoes
-    END TRY
-    BEGIN CATCH
-        PRINT 'Erro ao encontrar locacao: ' + ERROR_MESSAGE();
-        THROW;
-    END CATCH
-END
-GO
-
-CREATE OR ALTER PROCEDURE sp_CancelarLocacao @idLocacao INT,
-                                             @Status VARCHAR(20)
-AS
-BEGIN
-    SET NOCOUNT ON;
-    BEGIN TRY
-        UPDATE tblLocacoes
-        SET Status = @Status
-        WHERE LocacaoID = @idLocacao;
-        
-        PRINT 'Locacao Atualizada';
-    END TRY
-    BEGIN CATCH
-        PRINT 'Erro ao atualizar locacao: ' + ERROR_MESSAGE();
-        THROW;
-    END CATCH
-END
-GO
-
-
+('bac6ea70-2ad3-4cbf-ba40-dfaef816faaa', 2);

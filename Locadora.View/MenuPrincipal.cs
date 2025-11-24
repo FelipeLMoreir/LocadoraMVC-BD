@@ -1,12 +1,14 @@
 ﻿using Locadora.View.Clientes;
-using Locadora.View.Locacoes;
-using Locadora.View.VeiculosCategorias.Categorias;
+using Locadora.View.Categorias;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Utils;
+using Locadora.View.Veiculos;
+using Locadora.View.Funcionarios;
+using Locadora.View.Locacoes;
 
 namespace Locadora.View
 {
@@ -41,7 +43,9 @@ namespace Locadora.View
                 switch (opcao)
                 {
                     case "1":
-
+                        var veiculoMenu = new VeiculoMenu();
+                        veiculoMenu.MenuDeVeiculos();
+                        repete = false;
                         break;
                     case "2":
                         var categoriaMenu = new CategoriasMenu();
@@ -79,12 +83,14 @@ namespace Locadora.View
                         AcessarMenuDeVeiculosCategorias();
                         break;
                     case "3":
+                        var menuFuncionario = new FuncionarioMenu();
+                        menuFuncionario.MenuDeFuncionarios();
                         break;
                     case "4":
+                        var menuLocacao = new LocacaoMenu();
+                        menuLocacao.MenuLocacoes();
                         break;
                     case "0":
-                        var menuLocacaoMenu = new LocacaoMenu();
-                        menuLocacaoMenu.MenuLocacoes();
                         repetirMenu = false;
                         break;
                     default:

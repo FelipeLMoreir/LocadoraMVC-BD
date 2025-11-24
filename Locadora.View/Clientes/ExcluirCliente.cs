@@ -26,7 +26,7 @@ namespace Locadora.View.Clientes
                     Console.WriteLine("Digite o email do cliente que deseja alterar o excluir do sistema:");
                     var emailCliente = Console.ReadLine();
 
-                    clienteController.DeletarClientePorEmail(emailCliente);
+                    clienteController.ExcluirCliente(emailCliente);
                     Console.WriteLine("Cliente excluído com sucesso!");
                 }
             }

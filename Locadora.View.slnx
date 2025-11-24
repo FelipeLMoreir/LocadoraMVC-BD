@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/Itens de Solução/">
     <File Path="Solution Items/CREATE_SCHEMA.sql" />
+    <File Path="Solution Items/Procedures.sql" />
   </Folder>
   <Project Path="Locadora.Controller/Locadora.Controller.csproj" />
   <Project Path="Locadora.Models/Locadora.Models.csproj" />

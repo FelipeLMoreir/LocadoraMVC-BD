@@ -8,46 +8,54 @@ namespace Locadora.Models
 {
     public class Funcionario
     {
-        public readonly static string INSERTFUNCIONARIO = @"INSERT INTO tblFuncionarios(Nome,CPF,Email,Salario)
-                                                            VALUES (@Nome,@CPF,@Email,@Salario);";
-        public readonly static string SELECTFUNCIONARIOPORCPF = @"SELECT FuncionarioID,Nome,CPF,Email,Salario
+        public readonly static string INSERTFUNCIONARIO = @"INSERT INTO tblFuncionarios(Nome, CPF, Email, Salario)
+                                                            VALUES (@Nome, @CPF, @Email, @Salario);";
+
+        public readonly static string SELECTFUNCIONARIOPORCPF = @"SELECT FuncionarioID, Nome, CPF, Email, Salario
                                                                   FROM tblFuncionarios
-                                                                  WHERE FuncionarioID = @idFuncionario;";
-        public readonly static string SELECTTODOSFUNCIONARIOS = @"SELECT Nome, CPF,Email,Salario
+                                                                  WHERE CPF = @CPF;";
+
+        public readonly static string SELECTTODOSFUNCIONARIOS = @"SELECT Nome, CPF, Email, Salario
                                                                   FROM tblFuncionarios;";
+
         public readonly static string UPDATEFUNCIONARIOPORCPF = @"UPDATE tblFuncionarios
                                                                   SET Salario = @Salario
-                                                                  WHERE FuncionarioID = @idFuncionario;";
+                                                                  WHERE FuncionarioID = @IdFuncionario;";
+
         public readonly static string DELETEFUNCIONARIOPORCPF = @"DELETE FROM tblFuncionarios
-                                                                  WHERE FuncionarioID = @idFuncionario;";
+                                                                  WHERE FuncionarioID = @IdFuncionario;";
+
         public int FuncionarioID { get; private set; }
         public string Nome { get; private set; }
         public string CPF { get; private set; }
         public string Email { get; private set; }
-        public decimal? Salario { get; private set; }
-        public List<LocacaoFuncionario> LocacaoFuncionarios { get; private set; } = [];
+        public decimal Salario { get; private set; }
 
-        public Funcionario(string nome, string cPF, string email)
+        public Funcionario(string nome, string cpf, string email)
         {
-            this.Nome = nome;
-            this.CPF = cPF;
-            this.Email = email;
+            Nome = nome;
+            CPF = cpf;
+            Email = email;
         }
-        public void SetFuncionarioID(int id)
+
+        public Funcionario(
+            string nome,
+            string cpf,
+            string email,
+            decimal salario
+        ) : this(nome, cpf, email)
         {
-            this.FuncionarioID = id;
+            Salario = salario;
         }
-        public Funcionario(string nome, string cPF, string email, decimal? salario) : this(nome, cPF, email)
+
+        public void SetFuncionarioID(int funcionarioID)
         {
-            this.Salario = salario;
+            FuncionarioID = funcionarioID;
         }
-        public override string ToString()
+
+        public override string? ToString()
         {
-            return $"Nome: {this.Nome}\n" +
-                $"CPF: {this.CPF}\n" +
-                $"Email: {this.Email}\n" +
-                $"Salário: {this.Salario}";
+            return $"Nome: {Nome}\nCPF: {CPF}\nEmail: {Email}\nSalário: {Salario:c}\n";
         }
     }
 }
-

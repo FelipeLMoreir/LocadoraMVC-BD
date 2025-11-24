@@ -1,5 +1,6 @@
 ﻿using Locadora.Controller;
 using Locadora.Models;
+using Locadora.View.Categorias;
 using Locadora.View.Clientes;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Utils;
 
-namespace Locadora.View.VeiculosCategorias.Categorias
+namespace Locadora.View.Categorias
 {
     public class AtualizarCategoria
     {
@@ -36,13 +37,13 @@ namespace Locadora.View.VeiculosCategorias.Categorias
 
                     var categoria = new Categoria(
                         nomeCategoria,
-                        descricaoCategoria,
-                        valorDiaria
+                        valorDiaria,
+                        descricaoCategoria
                     );
 
-                    categoriaController.AtualizarCategoria(categoria, descricaoCategoria, valorDiaria);
+                    categoriaController.AtualizarCategoria(categoria);
                     Console.WriteLine("Categoria atualizada com sucesso!");
-                    Console.WriteLine(categoriaController.BuscarCategoriaPorId(categoria.CategoriaId));
+                    Console.WriteLine(categoriaController.BuscarCategoriaPorNome(categoria.Nome));
                 }
             }
             catch (Exception ex)

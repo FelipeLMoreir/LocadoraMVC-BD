@@ -6,32 +6,32 @@ using System.Text;
 using System.Threading.Tasks;
 using Utils;
 
-namespace Locadora.View.Locacoes
+namespace Locadora.View.Veiculos
 {
-    public class ListarLocacoes
+    public class ListarVeiculos
     {
-        public void ListarTodasLocacoes(LocacaoController locacaoController)
+        public void ListarTodosVeiculos(VeiculoController veiculoController)
         {
             try
             {
                 Console.Clear();
-                var locacoes = locacaoController.ListarLocacao();
-                if (locacoes.Count > 0)
+                var veiculos = veiculoController.ListarTodosVeiculos();
+                if (veiculos.Count() > 0)
                 {
-                    foreach (var loc in locacoes)
+                    Console.WriteLine("======= LISTA DE VEÍCULOS =======");
+                    foreach (var v in veiculos)
                     {
-                        Console.WriteLine(loc);
-                        Console.WriteLine("--------------------------");
+                        Console.WriteLine(v);
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Nenhuma locação registrada!");
+                    Console.WriteLine("Não há veículos registrados no sistema!");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Erro: " + ex.Message);
+                Console.WriteLine(ex.Message);
             }
             finally
             {
