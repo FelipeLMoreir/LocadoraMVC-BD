@@ -32,7 +32,7 @@ namespace Locadora.View.Clientes
                 var tipoDocumento = SelecionarDocumento();
 
                 Console.WriteLine("\nDigite o número de documento do cliente:");
-                var numeroDocumento = Console.ReadLine();
+                var numeroDocumento = Helpers.SolicitarNumeroDocumento(tipoDocumento);
 
                 Console.WriteLine("\nDigite a data de emissão do documento:");
                 var dataEmissao = DateOnly.Parse(Console.ReadLine());
