@@ -139,3 +139,12 @@ INSERT INTO tblLocacaoFuncionarios (LocacaoID, FuncionarioID) VALUES
 -- Pedro envolvido na Locação 2
 INSERT INTO tblLocacaoFuncionarios (LocacaoID, FuncionarioID) VALUES
 ('bac6ea70-2ad3-4cbf-ba40-dfaef816faaa', 2);
+
+SELECT * FROM tblClientes;
+SELECT * FROM tblDocumentos;
+SELECT * FROM tblCategorias;
+SELECT * FROM tblVeiculos;
+SELECT * FROM tblFuncionarios;
+SELECT * FROM tblLocacoes;
+SELECT * FROM tblLocacaoFuncionarios;
+GO  
